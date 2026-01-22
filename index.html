@@ -109,10 +109,80 @@ footer{
   padding:30px 15px;
   margin-top:60px;
 }
+.service{
+  cursor:pointer;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,.6);
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.modal-content{
+  background:white;
+  padding:25px;
+  border-radius:16px;
+  max-width:420px;
+  width:90%;
+  text-align:center;
+}
+
+.modal-content img{
+  width:100%;
+  border-radius:12px;
+  margin:15px 0;
+}
+
+.close{
+  float:right;
+  font-size:24px;
+  cursor:pointer;
+}
+.portfolio{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
+
+.portfolio-item{
+  cursor:pointer;
+}
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:10px;
+}
+
+.gallery img,
+.gallery video{
+  width:100%;
+  border-radius:10px;
+}
 </style>
 </head>
-
 <body>
+    <div id="galleryModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeGallery()">&times;</span>
+    <h3 id="galleryTitle"></h3>
+    <div id="galleryContent" class="gallery"></div>
+  </div>
+</div>
+<div id="serviceModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeService()">&times;</span>
+    <h3 id="serviceTitle"></h3>
+    <img id="serviceImage" src="" alt="">
+    <p id="serviceDesc"></p>
+      </div>
+</div>
 
 <header>
   <h1>Tuan Sastra</h1>
@@ -134,31 +204,102 @@ footer{
   </div>
 </section>
 
-<section>
+ <section>
   <h2>Layanan</h2>
+
   <div class="services">
-    <div class="card">🎨 Desain Grafis & Branding</div>
-    <div class="card">📱 Kelola Media Sosial</div>
-    <div class="card">🎬 Produksi Konten & Video</div>
-    <div class="card">📝 Penulisan Artikel & Berita</div>
-    <div class="card">📰 Jasa Media & Publikasi</div>
+    <div class="card service"
+      onclick="openService(
+        'Desain Grafis & Branding',
+        'Layanan desain logo, identitas visual, banner, poster, feed Instagram, dan kebutuhan branding profesional.',
+        'img/desain.jpg'
+      )">
+      🎨 Desain Grafis & Branding
+    </div>
+
+    <div class="card service"
+      onclick="openService(
+        'Kelola Media Sosial',
+        'Pengelolaan konten media sosial secara profesional, mulai dari konsep, desain, caption, hingga penjadwalan.',
+        'img/sosmed.jpg'
+      )">
+      📱 Kelola Media Sosial
+    </div>
+
+    <div class="card service"
+      onclick="openService(
+        'Produksi Konten & Video',
+        'Produksi konten visual dan video promosi, dokumentasi, liputan, dan konten kreatif lainnya.',
+        'img/video.jpg'
+      )">
+      🎬 Produksi Konten & Video
+    </div>
+
+    <div class="card service"
+      onclick="openService(
+        'Penulisan Artikel & Berita',
+        'Penulisan artikel SEO, berita, dan konten informatif untuk website maupun media online.',
+        'img/artikel.jpg'
+      )">
+      ✍️ Penulisan Artikel & Berita
+    </div>
+
+    <div class="card service"
+      onclick="openService(
+        'Jasa Media & Publikasi',
+        'Publikasi berita dan konten di media online, serta kerja sama liputan dan promosi.',
+        'img/publikasi.jpg'
+      )">
+      📰 Jasa Media & Publikasi
+    </div>
+  </div>
+</section>
   </div>
 </section>
 
 <section>
   <h2>Katalog Karya</h2>
-  <div class="portfolio">
-    <div>Contoh Desain</div>
-    <div>Contoh Konten</div>
-    <div>Artikel & Berita</div>
-    <div>Video & Media</div>
-  </div>
-  <p style="text-align:center;margin-top:15px;">
-    *(Tempat ini bisa diisi gambar, video, atau link karya kamu)*
-  </p>
-</section>
 
+ <div class="portfolio">
+
+  <!-- DESAIN -->
+  <div class="card portfolio-item"
+    onclick="openGallery(
+      'Desain Grafis',
+      ['img/desain1.jpg','img/desain2.jpg','img/desain3.jpg']
+    )">
+    Desain Grafis
+  </div>
+
+  <!-- VIDEO -->
+  <div class="card portfolio-item"
+    onclick="openGallery(
+      'Video & Media',
+      ['video/video1.mp4','video/video2.mp4']
+    )">
+    Video & Media
+  </div>
+
+  <!-- ARTIKEL & BERITA -->
+  <div class="card portfolio-item"
+    onclick="openGallery(
+      'Artikel & Berita',
+      ['img/artikel1.jpg','img/artikel2.jpg','img/artikel3.jpg']
+    )">
+    Artikel & Berita
+  </div>
+
+  <!-- SOCIAL MEDIA -->
+  <div class="card portfolio-item"
+    onclick="openGallery(
+      'Pengelolaan Social Media',
+      ['img/sosmed1.jpg','img/sosmed2.jpg','img/sosmed3.jpg']
+    )">
+    Pengelolaan Social Media
+  </div>
+</div>
 <section>
+    
   <h2>Kudus Today</h2>
   <div class="media">
     <p>
@@ -182,6 +323,41 @@ footer{
   <p>Dawe, Kota Kudus, Jawa Tengah (59353)</p>
   <p>kudustodayofficial@gmail.com</p>
 </footer>
+<script>
+function openService(title, desc, img){
+  document.getElementById("serviceTitle").innerText = title;
+  document.getElementById("serviceDesc").innerText = desc;
+  document.getElementById("serviceImage").src = img;
+  document.getElementById("serviceModal").style.display = "flex";
+}
 
+function closeService(){
+  document.getElementById("serviceModal").style.display = "none";
+}
+</script>
+<script>
+function openGallery(title, files){
+  document.getElementById('galleryTitle').innerText = title;
+  const container = document.getElementById('galleryContent');
+  container.innerHTML = '';
+
+  files.forEach(file=>{
+    if(file.endsWith('.mp4')){
+      container.innerHTML += `
+        <video controls>
+          <source src="${file}" type="video/mp4">
+        </video>`;
+    }else{
+      container.innerHTML += `<img src="${file}">`;
+    }
+  });
+
+  document.getElementById('galleryModal').style.display = 'flex';
+}
+
+function closeGallery(){
+  document.getElementById('galleryModal').style.display = 'none';
+}
+</script>
 </body>
 </html>
